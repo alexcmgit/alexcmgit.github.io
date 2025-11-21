@@ -9,12 +9,12 @@ export const GlobalStyle = createGlobalStyle`
     --container-width: 820px;
 
     // Dark mode
-    // --border-color: #232429;
-    // --background-color: #131418;
-    // --link-color: #58a6ff;
-    // --surface-color: #131418;
-    // --text-color: #8E8F90;
-    // --title-color: #c1c1c1;
+    --border-color: #232429;
+    --background-color: #100e0dff;
+    --link-color: #EE5D43;
+    --surface-color: #201b1aff;
+    --text-color: #9c817dff;
+    --title-color: #d0b4afff;
 
     // Light mode - Nature
     // --border-color: #1F8A70;
@@ -25,12 +25,12 @@ export const GlobalStyle = createGlobalStyle`
     // --title-color: #263A29;
 
     // Light mode - Default
-    --border-color: #f5f5f5;
-    --background-color: #FFFFFF;
-    --link-color: #1F8A70;
-    --surface-color: #FbFbFb;
-    --text-color: #061b16;
-    --title-color: #030d0b;
+    // --border-color: #f5f5f5;
+    // --background-color: #FFFFFF;
+    // --link-color: #1F8A70;
+    // --surface-color: #FbFbFb;
+    // --text-color: #061b16;
+    // --title-color: #030d0b;
 
     background: var(--background-color);
   }
@@ -55,5 +55,21 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: var(--link-color);
     text-decoration: none;
+  }
+
+  html .shiki,
+  html .shiki span {
+    color: var(--shiki-dark) !important;
+    /* Optional, if you also want font styles */
+    font-family: "JetBrains Mono";
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+  .markdown-body .shiki, .markdown-body .shiki-unknown {
+    background-color: var(--background-color) !important;
+  }
+  .markdown-body .shiki-unknown {
+    color: #e1e1e1 !important;
   }
 `;

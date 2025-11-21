@@ -2,6 +2,15 @@ import type { GatsbyConfig } from "gatsby";
 import parse from "html-dom-parser";
 import type { Element } from "domhandler";
 import dotenv from "dotenv";
+import {
+  transformerNotationDiff,
+  // ...
+} from '@shikijs/transformers'
+import hljs from "highlight.js";
+
+export function detectLanguage(snippet: string): string | undefined {
+  return hljs.highlightAuto(snippet).language;
+}
 
 import blogConfig from "./blog.config.ts";
 import { slugify } from "./src/utils/slugify.ts";
@@ -78,7 +87,7 @@ const config: GatsbyConfig = {
       options: {
         fonts: [
           `Roboto Mono`,
-          `Roboto Mono\:400,400i,700`, // you can also specify font weights and styles
+          `JetBrains Mono`,
         ],
         display: "swap",
       },
@@ -110,7 +119,20 @@ const config: GatsbyConfig = {
           {
             resolve: `gatsby-remark-shiki`,
             options: {
-              theme: "github-dark-dimmed", // Default
+              highlighterOptions: null,
+              codeToHtmlOptions: {
+                themes: {
+                  light: 'min-light',
+                  dark: 'everforest-dark',
+                },
+                transformers: [
+                  transformerNotationDiff(),
+                  // ...
+                ],
+              },
+              inferLang: async (snippet: string) => {
+                return detectLanguage(snippet)
+              }
             },
           },
           {
@@ -207,7 +229,12 @@ const config: GatsbyConfig = {
             options: {
               owner: blogConfig.owner,
               repo: blogConfig.repo,
-              categorySlugs: blogConfig.safeCategories,
+              categorySlugs: (() => {
+                if (process.env.NODE_ENV === "development") {
+                  return [...blogConfig.safeCategories, ...blogConfig.debugCategories]
+                }
+                return blogConfig.safeCategories
+              })(),
             },
           },
         ],

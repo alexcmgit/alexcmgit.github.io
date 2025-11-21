@@ -10,6 +10,7 @@ export default {
   // This will prevent someone else creating a discussion and publishing to your blog without your authorization.
   // Only users with repo-write access can modify announcement-type categories.
   safeCategories: [`Published`],
+	debugCategories: [`Debug`],
   siteMetadata: {
     title: `Obsidian's Blog`,
     twitterUsername: `<your-tt-username>`,

@@ -1,20 +1,14 @@
-<img src="https://github.com/alexrintt/obsidian/assets/51419598/02a5f5e7-9acc-4dfd-932d-92b5a34fccdf">
-
-<p align="center">
-  <a href="https://alexrintt.io/obsidian"><b>Live Website</b></a> •
-  <a href="https://alexrintt.io/obsidian/how-to-use-obsidian's-blog-template-(built-with-gatsby-and-github-actions-but-no-coding-skills-are-required)/"><b>User Guide</b></a>
-</p>
-  
 # Obsidian
 
-Obsidian is a configurable and serverless blog, fully hosted on GitHub pages and [GitHub discussions](https://github.com/alexrintt/obsidian/discussions) (CMS).
+Obsidian is a configurable and serverless blog, fully hosted on GitHub pages and [GitHub discussions](https://github.com/alexcmgit/obsidian/discussions) (CMS).
 
 The general design is original and tries to follow minimalism pattern. The markup content style is from [GitHub markdown CSS](https://github.com/sindresorhus/github-markdown-css).
 
-See [how to clone and use with your posts and your data](https://alexrintt.io/obsidian/how-to-use-obsidian's-blog-template-(built-with-gatsby-and-github-actions-but-no-coding-skills-are-required)/).
+See [how to clone and use with your posts and your data](https://alexcastro.dev/obsidian/how-to-use-obsidian's-blog-template-(built-with-gatsby-and-github-actions-but-no-coding-skills-are-required)/).
 
-## PageSpeed Insights
+## Quick start
 
-See results at https://pagespeed.web.dev/analysis/https-alexrintt-io-obsidian/sy8tvhqcdy.
-
-![](https://github.com/alexrintt/obsidian/assets/51419598/99e8d6d3-651b-4c81-894e-575a5a34d474)
+- Fill `.env`.
+- Run `yarn`.
+- Run `yarn clean`.
+- Run `yarn dev`.

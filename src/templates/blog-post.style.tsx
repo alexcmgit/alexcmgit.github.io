@@ -172,12 +172,6 @@ export function ContentHero({
 }
 
 export const MarkdownStyle = createGlobalStyle`
-  .markdown-body .shiki, .markdown-body .shiki-unknown {
-    background-color: #161b22 !important;
-  }
-  .markdown-body .shiki-unknown {
-    color: #e1e1e1 !important;
-  }
   .markdown-body {
     color-scheme: dark;
     -ms-text-size-adjust: 100%;
