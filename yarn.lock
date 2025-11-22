@@ -6149,9 +6149,9 @@ gatsby-remark-images-anywhere@^1.3.1:
     slash "^3.0.0"
     unist-util-select "^2.0.2"
 
-"gatsby-remark-shiki@https://gitpkg.now.sh/libsrcdev/gatsby-remark-shiki?b4fb956aba99b19340b4c725e7f05839954368d8":
+"gatsby-remark-shiki@https://gitpkg.now.sh/libsrcdev/gatsby-remark-shiki?main":
   version "0.2.1"
-  resolved "https://gitpkg.now.sh/libsrcdev/gatsby-remark-shiki?b4fb956aba99b19340b4c725e7f05839954368d8#cf8eb59afa3fab61cb257e6c2bda3cbca7498e86"
+  resolved "https://gitpkg.now.sh/libsrcdev/gatsby-remark-shiki?main#88c35fc83dc9bcc1b3575ebf0022c814d6cd63ef"
   dependencies:
     shiki "^3.15.0"
     shiki-languages "^0.2.7"
