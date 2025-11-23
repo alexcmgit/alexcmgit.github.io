@@ -845,7 +845,7 @@ export const MarkdownStyle = createGlobalStyle`
     margin: 0;
     font-size: 85%;
     white-space: break-spaces;
-    background-color: var(--border-color);
+    background-color: var(--surface-color);
     border-radius: 6px;
   }
 

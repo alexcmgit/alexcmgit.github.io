@@ -35,7 +35,6 @@ export default function BlogListPage(
     const groups: { [year: string]: any[] } = {};
     for (const discussion of discussions) {
       const year = new Date(discussion.createdAt!).getFullYear().toString();
-      console.log({ year })
       if (!groups[year]) {
         groups[year] = [];
       }
@@ -44,11 +43,7 @@ export default function BlogListPage(
     return groups
   })();
 
-  console.log({a: Object.keys(discussionsGroupedByYear)})
-
   const years = Object.keys(discussionsGroupedByYear).map(Number).sort((a, z) => z - a).map((e) => e.toString());
-
-  console.log({years})
 
   return (
     <Layout owner={owner as GitHubUser}>
