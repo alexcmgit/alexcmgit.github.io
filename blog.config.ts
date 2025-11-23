@@ -13,10 +13,11 @@ export default {
 	debugCategories: [`Debug`],
   siteMetadata: {
     title: `Obsidian's Blog`,
-    twitterUsername: `<your-tt-username>`,
+    twitterUsername: `alexcmtx`,
     description: `Obsidian is a blog and template built with Gatsby and GitHub, free and open-source.`,
     image: `https://user-images.githubusercontent.com/51419598/240399860-a9fb362c-28a0-4838-b8d5-8332c2feecb5.png`,
     siteUrl: `https://alexcastro.dev`,
+		deploySha: process.env.DEPLOY_SHA ?? "0",
   },
   socialMedia: socialMedia,
   postsPerPage: 10,

@@ -80,6 +80,7 @@ jobs:
         env:
           PREFIX_PATHS: "true"
           PERSONAL_GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+          DEPLOY_SHA: ${{ github.sha }}
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

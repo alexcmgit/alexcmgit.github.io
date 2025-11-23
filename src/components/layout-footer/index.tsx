@@ -6,11 +6,20 @@ import { useSiteMetadata } from "../../hooks/use-site-metadata.ts";
 import blogConfig from "../../../blog.config.ts";
 
 export type ILayoutFooterProps = {
-  title?: string;
+	title?: string;
 };
 
 export function LayoutFooter({
-  title,
+	title,
 }: React.PropsWithoutRef<ILayoutFooterProps>) {
-  return <S.Footer>you reached the end</S.Footer>;
+	const {
+		deploySha
+	} = useSiteMetadata();
+
+return <>
+		<S.Footer>you reached the end</S.Footer>
+		<div style={{ opacity: "0.5", fontSize: "0.5rem", margin: "auto", textAlign: "center", padding: "1rem" }}>
+			{deploySha.substring(0, 7)}
+		</div>
+	</>
 }

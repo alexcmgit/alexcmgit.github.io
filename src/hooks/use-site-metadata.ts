@@ -10,6 +10,7 @@ export function useSiteMetadata() {
             description
             image
             siteUrl
+						deploySha
           }
         }
       }
