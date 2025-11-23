@@ -117,7 +117,7 @@ const config: GatsbyConfig = {
         // Add your gatsby-remark-* plugins here
         plugins: [
           {
-            resolve: `gatsby-remark-shiki`,
+            resolve: `@libsrcdev/gatsby-remark-shiki`,
             options: {
               highlighterOptions: null,
               codeToHtmlOptions: {
@@ -168,7 +168,7 @@ const config: GatsbyConfig = {
       __key: "pages",
     },
     {
-      resolve: `gatsby-source-github-graphql`,
+      resolve: `@libsrcdev/gatsby-source-github-graphql`,
       options: {
         // Required, GitHub only allow authenticated requests.
         // Your token is not shared across subplugins even if you specify a custom token to it.
@@ -225,7 +225,7 @@ const config: GatsbyConfig = {
         },
         plugins: [
           {
-            resolve: `gatsby-source-github-graphql-discussions`,
+            resolve: `@libsrcdev/gatsby-source-github-graphql-discussions`,
             options: {
               owner: blogConfig.owner,
               repo: blogConfig.repo,
