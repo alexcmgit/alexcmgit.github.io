@@ -5,7 +5,7 @@ Fork this blog https://alexcmgit.github.io/obsidian/how-to-use-obsidian's-blog-t
 
 export default {
   owner: "alexcmgit",
-  repo: "obsidian",
+  repo: "alexcmgit.github.io",
   pathPrefix: "/",
   // This will prevent someone else creating a discussion and publishing to your blog without your authorization.
   // Only users with repo-write access can modify announcement-type categories.
