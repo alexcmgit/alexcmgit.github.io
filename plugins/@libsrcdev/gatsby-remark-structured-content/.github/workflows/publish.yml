@@ -1,0 +1,73 @@
+name: "Package Release to NPM"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  check-version:
+    name: "Check NPM Version"
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.check.outputs.should_publish }}
+      version: ${{ steps.read_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from package.json
+        id: read_version
+        run: echo "version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+      - name: Check if version exists on npm
+        id: check
+        run: |
+          echo "Checking npm for version ${{ steps.read_version.outputs.version }}"
+
+          EXISTS=$(npm view $(jq -r '.name' package.json) versions --json | jq -e '.[] | select(.=="'${{ steps.read_version.outputs.version }}'")' || echo "no")
+
+          if [ "$EXISTS" = "no" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    name: "Publish to NPM"
+    needs: check-version
+    if: needs.check-version.outputs.should_publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+          registry-url: 'https://registry.npmjs.org'
+          scope: \@${{ github.repository_owner }}
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Publish package
+        run: npm publish --access public
+
+  skip-notice:
+    name: "Skip Publish (Version Exists)"
+    needs: check-version
+    if: needs.check-version.outputs.should_publish == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Version already published
+        run: echo "Version ${{ needs.check-version.outputs.version }} already exists on npm. Skipping publish."

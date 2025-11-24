@@ -9,10 +9,15 @@ import Seo from "../components/seo";
 import { BlogPostItem } from "../components/blog-post-item";
 import { InLink } from "../components/inlink";
 
+export type IBlogPostPageContext = {
+  listingBasePath: string;
+};
+
 export default function BlogPostPage(
-  props: PageProps<Queries.BlogPostPageQuery>
+  props: PageProps<Queries.BlogPostPageQuery, IBlogPostPageContext>
 ) {
   const {
+    pageContext: { listingBasePath },
     data: { gitHubDiscussion, relatedPosts, owner },
   } = props;
 
@@ -50,6 +55,7 @@ export default function BlogPostPage(
         {relatedPosts.nodes.map((relatedPost) => {
           return (
             <BlogPostItem
+              listingBasePath={listingBasePath}
               key={relatedPost.githubId}
               post={relatedPost as any}
             />

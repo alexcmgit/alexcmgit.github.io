@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    --container-width: 820px;
+    --container-width: 720px;
 
     // Dark mode (purple theme)
     // --border-color:     #3E2A6Bff;   /* darkened deep-purple 700-ish */

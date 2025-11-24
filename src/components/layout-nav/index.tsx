@@ -14,7 +14,7 @@ export function LayoutNav() {
 
   return (
     <S.Nav>
-      <S.NavLink to="/">Home</S.NavLink>
+      <S.NavLink to={blogConfig.siteBasePathWithLeadingSlash}>Home</S.NavLink>
       {links.map(([linkName, linkUrl]) => {
         return (
           <S.NavLink key={linkName + linkUrl} to={linkUrl}>

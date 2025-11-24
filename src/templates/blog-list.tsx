@@ -6,11 +6,14 @@ import { GitHubUser, Layout } from "../components/layout";
 import { BlogListPaginator } from "../components/blog-list-paginator/index.tsx";
 import Seo from "../components/seo/index.tsx";
 import { BlogPostItem, IBlogPostItem } from "../components/blog-post-item/index.tsx";
+import { noTrailingSlash } from "../utils/url.ts";
+import blogConfig from "../../blog.config.ts";
 
 export type BlogListPageContext = {
   currentPage: number;
   pageCount: number;
   skip: number;
+  listingBasePath: string,
   limit: number;
 };
 
@@ -18,7 +21,7 @@ export default function BlogListPage(
   props: PageProps<Queries.BlogListPageQuery, BlogListPageContext>
 ) {
   const {
-    pageContext: { currentPage, pageCount },
+    pageContext: { currentPage, pageCount, listingBasePath },
     data: {
       discussions: { nodes: discussions },
       owner,
@@ -53,7 +56,7 @@ export default function BlogListPage(
             <>
               <S.YearDivider>{year}</S.YearDivider>
               {discussionsGroupedByYear[year].map((e: DiscussionPostItemType) => {
-                return <BlogPostItem key={e.githubId} post={e as IBlogPostItem["post"]} />;
+                return <BlogPostItem key={e.githubId} listingBasePath={listingBasePath} post={e as IBlogPostItem["post"]} />;
               })}
             </>
           )
@@ -64,9 +67,9 @@ export default function BlogListPage(
           isDisabled={(page: number) => page === currentPage}
           generateLink={(page: number) => {
             if (page === 1) {
-              return "/";
+              return listingBasePath;
             }
-            return `/page/${page}`;
+            return noTrailingSlash(listingBasePath, blogConfig.paginationPrefix, page.toString());
           }}
         />
       </S.Main>
@@ -125,7 +128,6 @@ export const query = graphql`
       nodes {
         githubId
         title
-        path
         slug
         shortExcerpt: childMarkdownRemark {
           excerpt(format: PLAIN, pruneLength: 240)

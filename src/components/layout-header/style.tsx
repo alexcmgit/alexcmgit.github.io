@@ -37,10 +37,11 @@ export function Header({ children }: React.PropsWithChildren<ISHeaderProps>) {
 
 export const OwnerHeader = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding: 0;
   margin-bottom: 1rem;
+  margin-top: 2rem;
   text-align: center;
 `;
 

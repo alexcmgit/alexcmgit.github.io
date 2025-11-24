@@ -2,11 +2,12 @@ import path from "path";
 import type { GatsbyNode } from "gatsby";
 import blogConfig from "./blog.config";
 import { assert } from "console";
+import { noTrailingSlash } from "./src/utils/url";
 
 type CreatePagesAPI = GatsbyNode[`createPages`];
 type OnCreatePageAPI = GatsbyNode[`onCreatePage`];
 
-const createBlogListPagination: CreatePagesAPI = async ({
+const createBlogListPaginationPages: CreatePagesAPI = async ({
   actions,
   graphql,
 }) => {
@@ -27,11 +28,11 @@ const createBlogListPagination: CreatePagesAPI = async ({
   if (!data) {
     throw Error(
       `Was not possible to fetch data: ` +
-        data +
-        "\nQuery: " +
-        query +
-        "\nErrors: " +
-        response.errors
+      data +
+      "\nQuery: " +
+      query +
+      "\nErrors: " +
+      response.errors
     );
   }
 
@@ -46,20 +47,16 @@ const createBlogListPagination: CreatePagesAPI = async ({
     const limit = perPage;
     const page = i + 1;
 
-    const listingPath = `/page`;
-
-    // Base path for post list (www.domain.com/)
-    const homePath = `/`;
-
-    // If someday I want to realocate the post list to the post base path (www.domain.com/blog):
-    // const homePath = blogConfig.postsBasePath;
+    const postListingBasePath = noTrailingSlash(`${blogConfig.postsBasePath}`);
+    const postListingPaginationBasePath = noTrailingSlash(`${postListingBasePath}/page`)
 
     createPage({
-      path: page === 1 ? homePath : `${listingPath}/${page}`,
+      path: page === 1 ? postListingBasePath : `${postListingPaginationBasePath}/${page}`,
       component: path.resolve(`./src/templates/blog-list.tsx`),
       context: {
         currentPage: page,
         pageCount: pageCount,
+        listingBasePath: postListingBasePath,
         skip,
         limit,
         ownerLogin: blogConfig.owner,
@@ -77,7 +74,6 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
         nodes {
           id
           githubId
-          path
         }
       }
     }
@@ -90,22 +86,72 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
   if (!data) {
     throw Error(
       `Was not possible to fetch data: ` +
-        data +
-        "\nQuery: " +
-        query +
-        "\nErrors: " +
-        response.errors
+      data +
+      "\nQuery: " +
+      query +
+      "\nErrors: " +
+      response.errors
     );
   }
 
   for (const discussion of data.allGitHubDiscussion.nodes) {
-    assert(discussion.path !== undefined);
+    assert(discussion.slug !== undefined);
+
+    const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
 
     createPage({
-      path: discussion.path!,
+      path: postContentPath,
       component: path.resolve(`./src/templates/blog-post.tsx`),
       ownerNodeId: discussion.id,
       context: {
+        listingBasePath: noTrailingSlash(blogConfig.postsBasePath),
+        discussionGithubId: discussion.githubId,
+        ownerLogin: blogConfig.owner,
+      },
+    });
+  }
+};
+
+const createStandalonePages: CreatePagesAPI = async ({ actions, graphql }) => {
+  const { createPage } = actions;
+
+  const query = `
+    query GetAllGitHubDiscussions {
+      allGitHubDiscussion {
+        nodes {
+          id
+          githubId
+        }
+      }
+    }
+  `;
+
+  const response = await graphql<Queries.Query>(query);
+
+  const data = response.data;
+
+  if (!data) {
+    throw Error(
+      `Was not possible to fetch data: ` +
+      data +
+      "\nQuery: " +
+      query +
+      "\nErrors: " +
+      response.errors
+    );
+  }
+
+  for (const discussion of data.allGitHubDiscussion.nodes) {
+    assert(discussion.slug !== undefined);
+
+    const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
+
+    createPage({
+      path: postContentPath,
+      component: path.resolve(`./src/templates/blog-post.tsx`),
+      ownerNodeId: discussion.id,
+      context: {
+        listingBasePath: noTrailingSlash(blogConfig.postsBasePath),
         discussionGithubId: discussion.githubId,
         ownerLogin: blogConfig.owner,
       },
@@ -115,7 +161,7 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
 
 export const createPages: CreatePagesAPI = async function (...args) {
   // await createProjectsPage(...args);
-  // await createAboutPage(...args);
-  await createBlogListPagination(...args);
+  await createBlogListPaginationPages(...args);
   await createBlogPostPages(...args);
+  // await createStandalonePages(...args);
 };

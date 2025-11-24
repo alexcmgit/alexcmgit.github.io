@@ -3,8 +3,11 @@ import React from "react";
 import { GatsbyImage, ImageDataLike, getImage } from "gatsby-plugin-image";
 
 import * as S from "./style";
+import { noTrailingSlash } from "../../utils/url";
+import blogConfig from "../../../blog.config";
 
 export type IBlogPostItem = {
+  listingBasePath: string;
   post: {
     title: string;
     shortExcerpt: {
@@ -19,10 +22,10 @@ export type IBlogPostItem = {
   };
 };
 
-export function BlogPostItem({ post }: IBlogPostItem) {
+export function BlogPostItem({ post, listingBasePath }: IBlogPostItem) {
   return (
     <S.BlogPostItem>
-      <S.BlogPostItemLink to={post.path}>
+      <S.BlogPostItemLink to={noTrailingSlash(listingBasePath, post.slug)}>
         {post.thumbnailImage ? (
           <S.BlogPostItemThumb>
             <GatsbyImage
@@ -49,6 +52,6 @@ export function BlogPostItem({ post }: IBlogPostItem) {
   );
 }
 
-function getLastCharsOf(s: string, n: number):string {
+function getLastCharsOf(s: string, n: number): string {
   return s.slice(-n);
 }

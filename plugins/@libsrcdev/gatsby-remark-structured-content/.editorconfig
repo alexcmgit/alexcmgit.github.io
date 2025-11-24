@@ -1,0 +1,35 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Default indentation: 2 spaces (common in JS)
+indent_style = space
+indent_size = 2
+
+# Makefiles usually use tabs
+[Makefile]
+indent_style = tab
+
+# Markdown: keep trailing spaces (for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# JSON / YAML (same style)
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# JS / TS / JSX / TSX
+[*.{js,jsx,ts,tsx,cjs,mjs}]
+indent_style = space
+indent_size = 2
+
+# Package files (package.json, etc)
+[{package.json,package-lock.json,yarn.lock,pnpm-lock.yaml}]
+indent_style = space
+indent_size = 2

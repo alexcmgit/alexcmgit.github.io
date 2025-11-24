@@ -12,3 +12,10 @@ See [how to clone and use with your posts and your data](https://alexcastro.dev/
 - Run `yarn`.
 - Run `yarn clean`.
 - Run `yarn dev`.
+
+## TODO
+
+- Finalize the plugin for image extraction: `gatsby-remark-structured-content`.
+  - Add API docs, and provide visit metadata info (depth, index, etc).
+
+- Remove thumbnail logic from config and use the new plugin to extract the first image as thumbnail.
