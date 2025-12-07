@@ -6,12 +6,22 @@ import * as S from "./blog-post.style";
 import { LayoutHeader } from "../components/layout-header";
 import { NavLink } from "../components/layout-nav/style";
 import Seo from "../components/seo";
-import { BlogPostItem } from "../components/blog-post-item";
+import { BlogPostItem, IBlogPostItem } from "../components/blog-post-item";
 import { InLink } from "../components/inlink";
 
 export type IBlogPostPageContext = {
   listingBasePath: string;
 };
+
+export type IRawBlogPostItem = Exclude<Queries.BlogPostPageQuery["gitHubDiscussion"], null>
+
+export function getThumbImageSharpFromPost(post: IRawBlogPostItem): ImageDataLike | undefined {
+  return post?.childMarkdownRemark?.childMarkdownRemarkThumbnail?.childFile?.childImageSharp ?? undefined
+}
+
+export function getThumbImagePublicURLFromPost(post: IRawBlogPostItem): string | undefined {
+  return post?.childMarkdownRemark?.childMarkdownRemarkThumbnail?.childFile?.publicURL ?? undefined
+}
 
 export default function BlogPostPage(
   props: PageProps<Queries.BlogPostPageQuery, IBlogPostPageContext>
@@ -23,13 +33,15 @@ export default function BlogPostPage(
 
   const post = gitHubDiscussion!;
 
+  const thumbImage = getThumbImageSharpFromPost(post)
+
   return (
     <Layout owner={owner as GitHubUser}>
       <S.MarkdownStyle />
-      {post?.thumbnailImage && (
+      {thumbImage && (
         <S.ContentHero>
           <GatsbyImage
-            image={getImage(post!.thumbnailImage.childImageSharp)!}
+            image={getImage(thumbImage)!}
             alt={post!.title!}
           />
         </S.ContentHero>
@@ -45,7 +57,7 @@ export default function BlogPostPage(
       <S.Content
         className="markdown-body"
         dangerouslySetInnerHTML={{
-          __html: post!.childMarkdownRemark!.html!,
+          __html: post.childMarkdownRemark!.html!,
         }}
       />
       <S.ContentDivider>
@@ -57,7 +69,7 @@ export default function BlogPostPage(
             <BlogPostItem
               listingBasePath={listingBasePath}
               key={relatedPost.githubId}
-              post={relatedPost as any}
+              post={relatedPost as unknown as IRawBlogPostItem}
             />
           );
         })}
@@ -74,7 +86,7 @@ export const Head: HeadFC<Queries.BlogPostPageQuery> = (props) => {
         props.data.gitHubDiscussion?.shortExcerpt?.excerpt ?? undefined
       }
       image={
-        props.data.gitHubDiscussion?.thumbnailImage?.publicURL ?? undefined
+        getThumbImagePublicURLFromPost(props.data.gitHubDiscussion!) ?? undefined
       }
     />
   );
@@ -85,12 +97,29 @@ export const query = graphql`
     slug
     title
     githubId
-    url
-    path
+    discussionUrl
     editPostUrl: discussionUrl
     humanReadableCreatedAt: createdAt(formatString: "dddd, MMMM Do YYYY")
     shortExcerpt: childMarkdownRemark {
       excerpt(format: PLAIN, pruneLength: 240)
+    }
+  }
+
+  fragment PostDetailsThumbInfo on MarkdownRemark {
+    childMarkdownRemarkThumbnail {
+      childFile {
+        ...PostDetailsThumbImageData
+        publicURL
+      }
+    }
+  }
+
+  fragment PostListThumbInfo on MarkdownRemark {
+    childMarkdownRemarkThumbnail {
+      childFile {
+        ...PostListThumbImageData
+        publicURL
+      }
     }
   }
 
@@ -123,13 +152,10 @@ export const query = graphql`
         childMarkdownRemark {
           html
           id
+          ...PostListThumbInfo
         }
         author {
           login
-        }
-        thumbnailImage {
-          ...PostDetailsThumbImageData
-          publicURL
         }
         ...PostPreviewInfo
       }
@@ -139,13 +165,10 @@ export const query = graphql`
       childMarkdownRemark {
         html
         id
+        ...PostDetailsThumbInfo
       }
       author {
         login
-      }
-      thumbnailImage {
-        ...PostDetailsThumbImageData
-        publicURL
       }
       ...PostPreviewInfo
     }

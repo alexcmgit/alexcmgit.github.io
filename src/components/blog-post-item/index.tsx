@@ -5,41 +5,29 @@ import { GatsbyImage, ImageDataLike, getImage } from "gatsby-plugin-image";
 import * as S from "./style";
 import { noTrailingSlash } from "../../utils/url";
 import blogConfig from "../../../blog.config";
+import { getThumbImageSharpFromPost, IRawBlogPostItem } from "../../templates/blog-post";
 
 export type IBlogPostItem = {
   listingBasePath: string;
-  post: {
-    title: string;
-    shortExcerpt: {
-      excerpt: string;
-    };
-    path: string;
-    thumbnailImage?: {
-      childImageSharp: ImageDataLike;
-    };
-    humanReadableCreatedAt: string;
-    slug: string;
-  };
+  post: IRawBlogPostItem;
 };
 
 export function BlogPostItem({ post, listingBasePath }: IBlogPostItem) {
+  const thumbImage = getThumbImageSharpFromPost(post)
+
   return (
     <S.BlogPostItem>
       <S.BlogPostItemLink to={noTrailingSlash(listingBasePath, post.slug)}>
-        {post.thumbnailImage ? (
+        {thumbImage ? (
           <S.BlogPostItemThumb>
             <GatsbyImage
-              image={
-                getImage(
-                  post.thumbnailImage!.childImageSharp! as ImageDataLike
-                )!
-              }
-              alt={post.title}
+              image={getImage(thumbImage)!}
+              alt={post.title ?? ''}
             />
           </S.BlogPostItemThumb>
         ) : (
           <S.BlogPostItemFallbackThumb>
-            {post.title[0].toUpperCase()}
+            {post.title![0].toUpperCase()}
           </S.BlogPostItemFallbackThumb>
         )}
         <S.BlogPostItemContent>

@@ -1,20 +1,8 @@
+import { pipe } from "rxjs";
 import { noTrailingSlash, withLeadingSlash } from "./src/utils/url";
+import { composed } from "./src/utils/composed";
 
-const socialMedia = `
-GitHub https://github.com/alexcmgit/obsidian
-Fork this blog https://alexcmgit.github.io/obsidian/how-to-use-obsidian's-blog-template-(built-with-gatsby-and-github-actions-but-no-coding-skills-are-required)/
-`;
-
-export default ((config) => ({
-  ...config,
-  siteBasePathWithLeadingSlash: withLeadingSlash(config.siteBasePath),
-}))(((config) => ({
-  ...config,
-  siteBasePath: noTrailingSlash(config.siteBasePath),
-  postsBasePath: noTrailingSlash(config.siteBasePath, config.postsBasePath),
-  postsPaginationBasePath: noTrailingSlash(config.siteBasePath, config.postsBasePath, config.paginationPrefix),
-  paginationPrefix: noTrailingSlash(config.paginationPrefix),
-}))({
+const config = composed({
   owner: "alexcmgit",
   repo: "alexcmgit.github.io",
 
@@ -34,10 +22,30 @@ export default ((config) => ({
     deploySha: process.env.DEPLOY_SHA ?? "0",
   },
 
-  socialMedia: socialMedia,
-
   // This will prevent someone else creating a discussion and publishing to your blog without your authorization.
   // Only users with repo-write access can modify announcement-type categories.
   safeCategories: [`Published`],
   debugCategories: [`Debug`],
-}));
+})((config) => ({
+  ...config,
+  siteBasePath: noTrailingSlash(config.siteBasePath),
+  postsBasePath: noTrailingSlash(config.siteBasePath, config.postsBasePath),
+  postsPaginationBasePath: noTrailingSlash(config.siteBasePath, config.postsBasePath, config.paginationPrefix),
+  paginationPrefix: noTrailingSlash(config.paginationPrefix),
+}))((config) => ({
+  ...config,
+  siteBasePathWithLeadingSlash: withLeadingSlash(config.siteBasePath),
+  postsBasePathWithLeadingSlash: withLeadingSlash(config.postsBasePath),
+  postsPaginationBasePathWithLeadingSlash: withLeadingSlash(config.postsPaginationBasePath),
+  paginationPrefixWithLeadingSlash: withLeadingSlash(config.paginationPrefix),
+}))((config) => ({
+  ...config,
+  navLinks: [
+    `Posts ${config.postsBasePathWithLeadingSlash}`,
+    `GitHub https://github.com/alexcmgit/obsidian`,
+    `LinkedIn https://www.linkedin.com/in/alexgccp`,
+  ],
+}))()
+
+
+export default config;

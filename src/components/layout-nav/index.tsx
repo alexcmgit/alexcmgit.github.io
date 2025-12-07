@@ -6,8 +6,7 @@ import blogConfig from "../../../blog.config.ts";
 export type ILayoutNavProps = {};
 
 export function LayoutNav() {
-  const links = blogConfig.socialMedia
-    .split(`\n`)
+  const links = blogConfig.navLinks
     .filter((e) => e.length !== 0)
     .map((e) => e.split(" "))
     .map((e) => [e.slice(0, e.length - 1).join(" "), e[e.length - 1]]);

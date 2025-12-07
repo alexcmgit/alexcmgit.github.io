@@ -8,6 +8,7 @@ import Seo from "../components/seo/index.tsx";
 import { BlogPostItem, IBlogPostItem } from "../components/blog-post-item/index.tsx";
 import { noTrailingSlash } from "../utils/url.ts";
 import blogConfig from "../../blog.config.ts";
+import { getThumbImageSharpFromPost, IRawBlogPostItem } from "./blog-post.tsx";
 
 export type BlogListPageContext = {
   currentPage: number;
@@ -56,7 +57,8 @@ export default function BlogListPage(
             <>
               <S.YearDivider>{year}</S.YearDivider>
               {discussionsGroupedByYear[year].map((e: DiscussionPostItemType) => {
-                return <BlogPostItem key={e.githubId} listingBasePath={listingBasePath} post={e as IBlogPostItem["post"]} />;
+                const post = e as unknown as IRawBlogPostItem
+                return <BlogPostItem key={e.githubId} listingBasePath={listingBasePath} post={post} />;
               })}
             </>
           )
@@ -129,14 +131,10 @@ export const query = graphql`
         githubId
         title
         slug
-        shortExcerpt: childMarkdownRemark {
-          excerpt(format: PLAIN, pruneLength: 240)
-        }
         humanReadableCreatedAt: createdAt(formatString: "dddd, MMMM Do YYYY")
         createdAt
-        thumbnailImage {
-          ...PostListThumbImageData
-          publicURL
+        childMarkdownRemark {
+          ...PostListThumbInfo
         }
       }
     }

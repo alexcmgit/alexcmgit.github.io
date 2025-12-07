@@ -8,48 +8,16 @@ function mapDiscussions(discussion: any) {
   // https://docs.github.com/en/graphql/guides/using-the-graphql-api-for-discussions#discussion
   // Not all fields are included but most of them.
 
-  const slug = slugify(discussion.title);
-  // const url = blogConfig.domain + path;
+  const slug = slugify(discussion.title, { lower: true, strict: true });
 
-  function getThumbnailUrlIfAny(string: string): string | undefined {
-    const source = string.trim();
-    const isMarkImg = source.startsWith(`![`);
-    const isHtmlImg = source.startsWith(`<img`);
+  const discussionUrl = discussion.url
 
-    if (!isMarkImg && !isHtmlImg) {
-      return undefined;
-    }
-
-    function htmlImgFromMarkImg(source: string): string {
-      const regex = /!\[(.*?)]\((.+)\)/g;
-
-      // Dangerous but we trust the HTML source since only users with repo write access can publish posts.
-      return source.replace(regex, `<img alt="$1" src="$2" />`);
-    }
-
-    const imgString = isMarkImg ? htmlImgFromMarkImg(source) : source;
-    const imgNode = parse(imgString)[0] as Element;
-    const src = imgNode.attribs.src;
-
-    if (!src.startsWith(`http`)) {
-      return undefined;
-    }
-
-    return src;
-  }
-
-  const postLines = discussion.body.split(`\n`);
-
-  const thumbnailImage = getThumbnailUrlIfAny(postLines[0]);
-  const hasThumbnailImage = typeof thumbnailImage === `string`;
+  delete discussion.url
 
   return {
     ...discussion,
-    discussionUrl: discussion.url,
-    body: hasThumbnailImage ? postLines.slice(1).join(`\n`) : discussion.body,
-    thumbnailImage: hasThumbnailImage ? thumbnailImage : null,
-    hasThumbnailImage,
-    // url,
+    discussionUrl: discussionUrl,
+    body: discussion.body,
     slug,
   };
 }
@@ -83,15 +51,7 @@ export function getGatsbySourceGitHubDiscussionsPlugin() {
           githubSourcePlugin: { pluginNodeTypes, createFileNodeFrom },
         }: any,
         pluginOptions: any
-      ) => {
-        if (node.internal.type === pluginNodeTypes.DISCUSSION) {
-          await createFileNodeFrom({
-            node,
-            key: `thumbnailImage`,
-            fieldName: `thumbnailImageFile`,
-          });
-        }
-      },
+      ) => {},
 
       // The last step is to make define the custom field in the schema.
       createSchemaCustomization: (
@@ -105,7 +65,7 @@ export function getGatsbySourceGitHubDiscussionsPlugin() {
         // if it is conflicting with another plugin.
         const typedef = `
             type ${pluginNodeTypes.DISCUSSION} implements Node {
-              thumbnailImage: File @link(from: "fields.thumbnailImageFile")
+              slug: String!
             }
           `;
 
@@ -129,5 +89,4 @@ export function getGatsbySourceGitHubDiscussionsPlugin() {
       ],
     },
   }
-
 }

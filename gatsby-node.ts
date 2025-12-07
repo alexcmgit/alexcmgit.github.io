@@ -74,6 +74,7 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
         nodes {
           id
           githubId
+          slug
         }
       }
     }
@@ -142,8 +143,6 @@ const createStandalonePages: CreatePagesAPI = async ({ actions, graphql }) => {
   }
 
   for (const discussion of data.allGitHubDiscussion.nodes) {
-    assert(discussion.slug !== undefined);
-
     const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
 
     createPage({

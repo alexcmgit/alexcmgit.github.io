@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@libsrcdev/gatsby-remark-shiki": "^0.3.3",
-    "@libsrcdev/gatsby-remark-structured-content": "file:./plugins/@libsrcdev/gatsby-remark-structured-content",
+    "@libsrcdev/gatsby-remark-structured-content": "file:../gatsby-remark-structured-content",
     "@libsrcdev/gatsby-source-github-graphql": "^0.2.0",
     "@libsrcdev/gatsby-source-github-graphql-discussions": "^0.1.1",
     "@mdx-js/react": "^2.3.0",

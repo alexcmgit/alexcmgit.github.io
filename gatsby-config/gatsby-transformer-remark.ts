@@ -5,7 +5,7 @@ import {
 } from '@shikijs/transformers'
 import hljs from "highlight.js";
 
-import {} from "@libsrcdev/gatsby-remark-structured-data-content";
+import { createImageExtractorTransformer, createThumbnailImageTransformer } from "@libsrcdev/gatsby-remark-structured-content";
 
 export function detectLanguage(snippet: string): string | undefined {
   return hljs.highlightAuto(snippet).language;
@@ -24,7 +24,10 @@ export function getGatsbyTransformerRemarkPlugin() {
         {
           resolve: `@libsrcdev/gatsby-remark-structured-content`,
           options: {
-            transformers: {},
+            transformers: [
+              createThumbnailImageTransformer(),
+              // createImageExtractorTransformer(),
+            ],
           },
         },
         {
