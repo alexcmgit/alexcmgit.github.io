@@ -17,6 +17,12 @@ const createBlogListPaginationPages: CreatePagesAPI = async ({
     query GetAllGitHubDiscussions {
       allGitHubDiscussion {
         totalCount
+        # Code below triggers the markdown remark transformer parser flow
+        nodes {
+          childMarkdownRemark {
+            html
+          }
+        }
       }
     }
   `;
