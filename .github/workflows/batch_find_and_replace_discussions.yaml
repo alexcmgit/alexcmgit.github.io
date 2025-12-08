@@ -1,0 +1,137 @@
+name: Batch Find and Replace in GitHub Discussions
+
+on:
+  workflow_dispatch:
+    inputs:
+      find:
+        description: "Text to search for in discussion titles/bodies"
+        required: true
+        type: string
+      replace:
+        description: "Text to replace it with"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  discussions: write
+
+jobs:
+  batch-find-and-replace:
+    runs-on: ubuntu-latest
+
+    env:
+      FIND_TEXT: ${{ github.event.inputs.find }}
+      REPLACE_TEXT: ${{ github.event.inputs.replace }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Batch find & replace in discussions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const findText = process.env.FIND_TEXT;
+            const replaceText = process.env.REPLACE_TEXT;
+
+            if (!findText) {
+              core.setFailed("FIND_TEXT is empty.");
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            core.info(`Repository: ${owner}/${repo}`);
+            core.info(`Find: "${findText}"`);
+            core.info(`Replace: "${replaceText}"`);
+
+            const listDiscussionsQuery = `
+              query($owner: String!, $repo: String!, $after: String) {
+                repository(owner: $owner, name: $repo) {
+                  discussions(first: 50, after: $after) {
+                    pageInfo {
+                      hasNextPage
+                      endCursor
+                    }
+                    nodes {
+                      id
+                      title
+                      body
+                      url
+                    }
+                  }
+                }
+              }
+            `;
+
+            const updateDiscussionMutation = `
+              mutation(
+                $discussionId: ID!
+                $title: String!
+                $body: String!
+              ) {
+                updateDiscussion(input: {
+                  discussionId: $discussionId
+                  title: $title
+                  body: $body
+                }) {
+                  discussion {
+                    id
+                    url
+                  }
+                }
+              }
+            `;
+
+            let updatedCount = 0;
+            let page = 1;
+            let hasNextPage = true;
+            let after = null;
+
+            while (hasNextPage) {
+              core.info(`Fetching discussions page ${page}...`);
+
+              const result = await github.graphql(listDiscussionsQuery, {
+                owner,
+                repo,
+                after
+              });
+
+              const discussions = result.repository?.discussions?.nodes || [];
+              const pageInfo = result.repository?.discussions?.pageInfo;
+
+              for (const d of discussions) {
+                let newTitle = d.title;
+                let newBody = d.body;
+                let changed = false;
+
+                if (newTitle && newTitle.includes(findText)) {
+                  newTitle = newTitle.split(findText).join(replaceText);
+                  changed = true;
+                }
+
+                if (newBody && newBody.includes(findText)) {
+                  newBody = newBody.split(findText).join(replaceText);
+                  changed = true;
+                }
+
+                if (!changed) continue;
+
+                core.info(`Updating discussion: ${d.url}`);
+
+                await github.graphql(updateDiscussionMutation, {
+                  discussionId: d.id,
+                  title: newTitle,
+                  body: newBody
+                });
+
+                updatedCount++;
+              }
+
+              hasNextPage = pageInfo?.hasNextPage;
+              after = pageInfo?.endCursor || null;
+              page++;
+            }
+
+            core.info(`Finished. Updated ${updatedCount} discussion(s).`);
