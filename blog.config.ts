@@ -42,7 +42,7 @@ const config = composed({
   ...config,
   navLinks: [
     `Posts ${config.postsBasePathWithLeadingSlash}`,
-    `GitHub https://github.com/alexcmgit/obsidian`,
+    `GitHub https://github.com/${config.owner}/${config.repo}`,
     `LinkedIn https://www.linkedin.com/in/alexgccp`,
   ],
 }))()
