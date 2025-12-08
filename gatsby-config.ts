@@ -65,10 +65,10 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-source-filesystem",
       options: {
-        name: "pages",
-        path: "./pages/",
+        name: "evergreen",
+        path: "./evergreen/",
       },
-      __key: "pages",
+      __key: "evergreen",
     },
     getGatsbySourceGitHubDiscussionsPlugin(),
   ],

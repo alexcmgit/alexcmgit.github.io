@@ -23,6 +23,10 @@ export function getThumbImagePublicURLFromPost(post: IRawBlogPostItem): string |
   return post?.childMarkdownRemark?.childMarkdownRemarkThumbnail?.childFile?.publicURL ?? undefined
 }
 
+export function getThumbImagePublicURLFromMarkdownRemark(markdownRemark: IRawBlogPostItem["childMarkdownRemark"]): string | undefined {
+  return markdownRemark?.childMarkdownRemarkThumbnail?.childFile?.publicURL ?? undefined
+}
+
 export default function BlogPostPage(
   props: PageProps<Queries.BlogPostPageQuery, IBlogPostPageContext>
 ) {
@@ -124,25 +128,7 @@ export const query = graphql`
   }
 
   query BlogPostPage($discussionGithubId: String!, $ownerLogin: String!) {
-    owner: gitHubUser(login: { eq: $ownerLogin }) {
-      avatarUrl
-      githubId
-      login
-      bio
-      avatarUrlSharpOptimized {
-        childImageSharp {
-          gatsbyImageData(
-            layout: FIXED
-            width: 50
-            height: 50
-            placeholder: TRACED_SVG
-            formats: [AUTO, WEBP, AVIF]
-          )
-        }
-        publicURL
-      }
-    }
-
+    ...OwnerInfo
     relatedPosts: allGitHubDiscussion(
       filter: { githubId: { ne: $discussionGithubId } }
       limit: 50

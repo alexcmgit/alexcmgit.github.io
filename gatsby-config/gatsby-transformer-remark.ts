@@ -25,8 +25,8 @@ export function getGatsbyTransformerRemarkPlugin() {
           resolve: `@libsrcdev/gatsby-remark-structured-content`,
           options: {
             transformers: [
+              createImageExtractorTransformer(),
               createThumbnailImageTransformer(),
-              // createImageExtractorTransformer(),
             ],
           },
         },

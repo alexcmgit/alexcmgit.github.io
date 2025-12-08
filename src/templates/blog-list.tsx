@@ -102,7 +102,7 @@ export const query = graphql`
       )
     }
   }
-  query BlogListPage($skip: Int!, $limit: Int!, $ownerLogin: String!) {
+  fragment OwnerInfo on Query {
     owner: gitHubUser(login: { eq: $ownerLogin }) {
       avatarUrl
       githubId
@@ -121,6 +121,9 @@ export const query = graphql`
         publicURL
       }
     }
+  }
+  query BlogListPage($skip: Int!, $limit: Int!, $ownerLogin: String!) {
+    ...OwnerInfo
     discussions: allGitHubDiscussion(
       sort: [{ createdAt: DESC }, { updatedAt: DESC }]
       skip: $skip

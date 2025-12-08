@@ -2,7 +2,7 @@ import path from "path";
 import type { GatsbyNode } from "gatsby";
 import blogConfig from "./blog.config";
 import { assert } from "console";
-import { noTrailingSlash } from "./src/utils/url";
+import { noTrailingSlash, withLeadingSlash } from "./src/utils/url";
 
 type CreatePagesAPI = GatsbyNode[`createPages`];
 type OnCreatePageAPI = GatsbyNode[`onCreatePage`];
@@ -102,8 +102,6 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
   }
 
   for (const discussion of data.allGitHubDiscussion.nodes) {
-    assert(discussion.slug !== undefined);
-
     const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
 
     createPage({
@@ -119,15 +117,21 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
   }
 };
 
-const createStandalonePages: CreatePagesAPI = async ({ actions, graphql }) => {
+const createEvergreenPages: CreatePagesAPI = async ({ actions, graphql }) => {
   const { createPage } = actions;
 
   const query = `
-    query GetAllGitHubDiscussions {
-      allGitHubDiscussion {
+    query GetEvergreenMarkdownFiles {
+      allFile(filter: {sourceInstanceName: {eq: "evergreen"}, extension: {eq: "md"}}) {
         nodes {
           id
-          githubId
+          publicURL
+          url
+          name
+          sourceInstanceName
+          absolutePath
+          relativeDirectory
+          relativePath
         }
       }
     }
@@ -148,16 +152,16 @@ const createStandalonePages: CreatePagesAPI = async ({ actions, graphql }) => {
     );
   }
 
-  for (const discussion of data.allGitHubDiscussion.nodes) {
-    const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
+  for (const file of data.allFile.nodes) {
+    const contentPath = withLeadingSlash(noTrailingSlash(file.relativeDirectory, file.name === "index" ? "" : file.name))
 
     createPage({
-      path: postContentPath,
-      component: path.resolve(`./src/templates/blog-post.tsx`),
-      ownerNodeId: discussion.id,
+      path: contentPath,
+      component: path.resolve(`./src/templates/evergreen.tsx`),
+      ownerNodeId: file.id,
       context: {
-        listingBasePath: noTrailingSlash(blogConfig.postsBasePath),
-        discussionGithubId: discussion.githubId,
+        listingBasePath: noTrailingSlash(file.relativeDirectory),
+        fileId: file.id,
         ownerLogin: blogConfig.owner,
       },
     });
@@ -168,5 +172,5 @@ export const createPages: CreatePagesAPI = async function (...args) {
   // await createProjectsPage(...args);
   await createBlogListPaginationPages(...args);
   await createBlogPostPages(...args);
-  // await createStandalonePages(...args);
+  await createEvergreenPages(...args);
 };
