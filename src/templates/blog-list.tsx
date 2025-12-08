@@ -134,6 +134,7 @@ export const query = graphql`
         humanReadableCreatedAt: createdAt(formatString: "dddd, MMMM Do YYYY")
         createdAt
         childMarkdownRemark {
+          html
           ...PostListThumbInfo
         }
       }
