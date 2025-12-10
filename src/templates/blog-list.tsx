@@ -8,7 +8,7 @@ import Seo from "../components/seo/index.tsx";
 import { BlogPostItem, IBlogPostItem } from "../components/blog-post-item/index.tsx";
 import { noTrailingSlash } from "../utils/url.ts";
 import blogConfig from "../../blog.config.ts";
-import { getThumbImageSharpFromPost, IRawBlogPostItem } from "./blog-post.tsx";
+import { IRawBlogPostItem } from "./blog-post.tsx";
 
 export type BlogListPageContext = {
   currentPage: number;
@@ -54,13 +54,13 @@ export default function BlogListPage(
       <S.Main>
         {years.map((year) => {
           return (
-            <>
+            <React.Fragment key={year}>
               <S.YearDivider>{year}</S.YearDivider>
               {discussionsGroupedByYear[year].map((e: DiscussionPostItemType) => {
                 const post = e as unknown as IRawBlogPostItem
                 return <BlogPostItem key={e.githubId} listingBasePath={listingBasePath} post={post} />;
               })}
-            </>
+            </React.Fragment>
           )
         })}
         <BlogListPaginator
@@ -71,7 +71,7 @@ export default function BlogListPage(
             if (page === 1) {
               return listingBasePath;
             }
-            return noTrailingSlash(listingBasePath, blogConfig.paginationPrefix, page.toString());
+            return noTrailingSlash(listingBasePath, blogConfig.pagination.prefix, page.toString());
           }}
         />
       </S.Main>
@@ -108,6 +108,7 @@ export const query = graphql`
       githubId
       login
       bio
+      name
       avatarUrlSharpOptimized {
         childImageSharp {
           gatsbyImageData(

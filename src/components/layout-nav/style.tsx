@@ -1,39 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  withBorderBottom,
-  withBorderLeft,
-  withBorderRight,
-} from "../../style/common";
-
-import { InLink } from "../inlink";
+import { NavInLink } from "../inlink";
 
 export const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-export const NavContainer = styled.div`
+export const NavContainer = styled.div<{ justifyContent?: "center" | "flex-start" | "flex-end" }>`
   width: 100%;
   max-width: var(--container-width);
   padding: 1.5rem;
   display: flex;
-  justify-content: center;
+  justify-content: ${(props) => props.justifyContent || "center"};
   flex-wrap: wrap;
 `;
 
-export function Nav({ children }: React.PropsWithChildren) {
+export function Nav({ children, justifyContent }: React.PropsWithChildren<{ justifyContent?: "center" | "flex-start" | "flex-end" }>) {
   return (
     <NavWrapper>
-      <NavContainer>{children}</NavContainer>
+      <NavContainer justifyContent={justifyContent}>{children}</NavContainer>
     </NavWrapper>
   );
 }
 
-export const NavLink = styled(InLink)`
-  &:hover {
-    text-decoration: underline double;
-  }
+export const NavLink = styled(NavInLink)`
   margin-right: 1rem;
   margin-bottom: 0.3rem;
   display: block;

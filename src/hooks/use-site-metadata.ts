@@ -6,9 +6,11 @@ export function useSiteMetadata() {
       query SiteMetaData {
         site {
           siteMetadata {
-            title
-            description
-            image
+            about {
+              name
+              description
+              bannerImageUrl
+            }
             siteUrl
             deploySha
           }

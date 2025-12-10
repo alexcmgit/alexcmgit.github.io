@@ -39,7 +39,7 @@ export const ContentMetaWrapper = styled.section`
 `;
 
 export type IOptionalPadding = {
-  noPadding?: boolean;
+  $noPadding?: boolean;
 };
 
 export const ContentMetaContainer = styled.div<
@@ -47,7 +47,7 @@ export const ContentMetaContainer = styled.div<
 >`
   width: 100%;
   max-width: var(--container-width);
-  padding: ${(props) => (props.noPadding ? "0" : "1.5rem")};
+  padding: ${(props) => (props.$noPadding ? "0" : "1.5rem")};
 `;
 
 export function ContentMeta({
@@ -164,6 +164,7 @@ export const MarkdownStyle = createGlobalStyle`
     -webkit-text-size-adjust: 100%;
     margin: 0;
     color: var(--text-color);
+    font-weight: 400;
     font-size: 16px;
     line-height: 1.5;
     word-wrap: break-word;
@@ -218,6 +219,7 @@ export const MarkdownStyle = createGlobalStyle`
   .markdown-body b,
   .markdown-body strong {
     font-weight: 600;
+    color: var(--title-color);
   }
 
   .markdown-body dfn {
@@ -429,6 +431,7 @@ export const MarkdownStyle = createGlobalStyle`
     margin-bottom: 16px;
     font-weight: 600;
     line-height: 1.25;
+    color: var(--title-color);
   }
 
   .markdown-body h2 {

@@ -6,10 +6,12 @@ import { LayoutNav } from "../layout-nav";
 import { LayoutFooter } from "../layout-footer";
 import LineDecoration from "../line-decoration";
 import { ImageDataLike } from "gatsby-plugin-image";
+import EmblaCarousel from "../carousel";
 
 export type GitHubUser = {
   readonly login?: string | null;
   readonly bio?: string | null;
+  readonly name?: string | null;
   readonly githubId?: string | null;
   readonly avatarUrlSharpOptimized: ImageDataLike;
 };

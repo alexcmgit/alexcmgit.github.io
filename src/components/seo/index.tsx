@@ -16,9 +16,7 @@ export default function Seo({
   children,
 }: React.PropsWithChildren<SeoProps>): JSX.Element {
   const {
-    title: defaultTitle,
-    description: defaultDescription,
-    image: defaultImage,
+    about: { name: defaultTitle, description: defaultDescription, bannerImageUrl: defaultImage },
     siteUrl,
     twitterUsername,
     deploySha,

@@ -9,13 +9,28 @@ See [how to clone and use with your posts and your data](https://alexcastro.dev/
 ## Quick start
 
 - Fill `.env`.
-- Run `yarn`.
-- Run `yarn clean`.
-- Run `yarn dev`.
+- Run:
 
-## TODO
+```bash
+yarn install
+yarn clean
+yarn dev
+```
 
-- Finalize the plugin for image extraction: `gatsby-remark-structured-content`.
-  - Add API docs, and provide visit metadata info (depth, index, etc).
+## Roadmap
 
-- Remove thumbnail logic from config and use the new plugin to extract the first image as thumbnail.
+- [x] Finalize the plugin for image extraction: `gatsby-remark-structured-content`.
+  - [x] Add API docs, and provide visit metadata info (depth, index, etc).~
+- [x] Remove thumbnail logic from config and use the new plugin to extract the first image as thumbnail.
+- [ ] Add support for video embedding (YouTube, Vimeo, etc).
+- [ ] Add support for image captions.
+- [ ] Add support for image alt text.
+- [ ] Add support for p5js sketches embedding.
+- [ ] Showcase my p5js sketches using the embedding system.
+- [ ] Showcase my algorithms (need to define how to do this in a post-like view).
+- [ ] Showcase my open-source projects.
+- [ ] Showcase my photography work.
+- [ ] Showcase my work experiences / a.k.a professional app/web/backend experience/projects.
+- [ ] Need to create a proper landing page (maybe?).
+- [ ] Need to create a proper redirect system for old links and also finish a SaaS for link management (ref. wya. Maybe turning it into a Cloudflare SPA w/ ease UI for link management).
+- [ ] Check SEO status of this blog and social media embed integration.

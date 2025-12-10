@@ -5,6 +5,7 @@ import * as S from "./blog-post.style";
 import Seo from "../components/seo";
 import { BlogPostItem } from "../components/blog-post-item";
 import { getThumbImagePublicURLFromMarkdownRemark, IRawBlogPostItem } from "./blog-post";
+import { LayoutNav } from "../components/layout-nav";
 
 export type IEvergreenPageContext = {
   listingBasePath: string;
@@ -29,20 +30,6 @@ export default function EvergreenPage(
           __html: htmlContent,
         }}
       />
-      <S.ContentDivider>
-        {relatedPosts.nodes.length > 0 && <h1>Other posts</h1>}
-      </S.ContentDivider>
-      <S.ContentMeta noPadding>
-        {relatedPosts.nodes.map((relatedPost) => {
-          return (
-            <BlogPostItem
-              listingBasePath={listingBasePath}
-              key={relatedPost.githubId}
-              post={relatedPost as unknown as IRawBlogPostItem}
-            />
-          );
-        })}
-      </S.ContentMeta>
     </Layout>
   );
 }
@@ -50,7 +37,7 @@ export default function EvergreenPage(
 export const Head: HeadFC<Queries.EvergreenPageQuery> = (props) => {
   return (
     <Seo
-      title={props.data.file?.name ?? undefined}
+      title={props.data.file?.childMarkdownRemark?.frontmatter?.title ?? undefined}
       description={
         props.data.file?.childMarkdownRemark?.excerpt ?? undefined
       }
@@ -89,6 +76,9 @@ export const query = graphql`
         html
         id
         excerpt
+        frontmatter {
+          title
+        }
       }
     }
   }

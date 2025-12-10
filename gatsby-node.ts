@@ -44,7 +44,7 @@ const createBlogListPaginationPages: CreatePagesAPI = async ({
 
   const { totalCount } = data.allGitHubDiscussion;
 
-  const perPage = blogConfig.postsPerPage;
+  const perPage = blogConfig.posts.perPage;
 
   const pageCount = Math.ceil(totalCount / perPage);
 
@@ -53,7 +53,7 @@ const createBlogListPaginationPages: CreatePagesAPI = async ({
     const limit = perPage;
     const page = i + 1;
 
-    const postListingBasePath = noTrailingSlash(`${blogConfig.postsBasePath}`);
+    const postListingBasePath = noTrailingSlash(blogConfig.posts.basePath);
     const postListingPaginationBasePath = noTrailingSlash(`${postListingBasePath}/page`)
 
     createPage({
@@ -102,14 +102,14 @@ const createBlogPostPages: CreatePagesAPI = async ({ actions, graphql }) => {
   }
 
   for (const discussion of data.allGitHubDiscussion.nodes) {
-    const postContentPath = noTrailingSlash(blogConfig.postsBasePath, discussion.slug!);
+    const postContentPath = noTrailingSlash(blogConfig.posts.basePath, discussion.slug!);
 
     createPage({
       path: postContentPath,
       component: path.resolve(`./src/templates/blog-post.tsx`),
       ownerNodeId: discussion.id,
       context: {
-        listingBasePath: noTrailingSlash(blogConfig.postsBasePath),
+        listingBasePath: noTrailingSlash(blogConfig.posts.basePath),
         discussionGithubId: discussion.githubId,
         ownerLogin: blogConfig.owner,
       },
@@ -160,7 +160,7 @@ const createEvergreenPages: CreatePagesAPI = async ({ actions, graphql }) => {
       component: path.resolve(`./src/templates/evergreen.tsx`),
       ownerNodeId: file.id,
       context: {
-        listingBasePath: noTrailingSlash(file.relativeDirectory),
+        listingBasePath: noTrailingSlash(blogConfig.posts.basePath),
         fileId: file.id,
         ownerLogin: blogConfig.owner,
       },

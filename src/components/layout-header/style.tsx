@@ -1,12 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  withBorder,
-  withBorderBottom,
-  withBorderLeft,
-  withBorderRight,
-  withBorderTop,
-} from "../../style/common";
 
 export const HeaderWrapper = styled.div<ISHeaderProps>`
   display: flex;
@@ -51,8 +44,6 @@ export const OwnerPfp = styled.div`
   height: 50px;
 
   box-sizing: content-box;
-
-  ${withBorder}
 
   display: flex;
   justify-content: center;

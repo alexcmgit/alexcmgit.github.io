@@ -24,13 +24,12 @@ const config: GatsbyConfig = {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
         fonts: [
-          `Roboto Mono`,
-          `JetBrains Mono`,
+          `Inter`,
+          `JetBrains Mono:300,400,400i,700`,
         ],
         display: "swap",
       },
     },
-    `gatsby-plugin-transition-link`,
     `gatsby-plugin-styled-components`,
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",

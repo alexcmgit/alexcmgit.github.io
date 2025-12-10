@@ -1,5 +1,3 @@
-import parse from "html-dom-parser";
-import type { Element } from "domhandler";
 import slugify from "slugify";
 import blogConfig from "../blog.config.ts";
 
@@ -51,7 +49,7 @@ export function getGatsbySourceGitHubDiscussionsPlugin() {
           githubSourcePlugin: { pluginNodeTypes, createFileNodeFrom },
         }: any,
         pluginOptions: any
-      ) => {},
+      ) => { },
 
       // The last step is to make define the custom field in the schema.
       createSchemaCustomization: (
@@ -72,20 +70,20 @@ export function getGatsbySourceGitHubDiscussionsPlugin() {
         createTypes(typedef);
       },
       plugins: [
-        {
+        ...blogConfig.posts.ghDiscussionSourceRepos.map(({ owner, repo, publishedCategories, debugCategories }) => ({
           resolve: `@libsrcdev/gatsby-source-github-graphql-discussions`,
           options: {
-            owner: blogConfig.owner,
-            repo: blogConfig.repo,
+            owner: owner,
+            repo: repo,
             categorySlugs: (() => {
               if (process.env.NODE_ENV === "development") {
-                return [...blogConfig.safeCategories, ...blogConfig.debugCategories]
+                return [...publishedCategories, ...debugCategories]
               }
-              return blogConfig.safeCategories
+              return publishedCategories
             })(),
             key: `posts`,
           },
-        },
+        })),
       ],
     },
   }

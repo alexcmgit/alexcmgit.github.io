@@ -5,6 +5,15 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @font-face {
+    font-family: 'Nasalization';
+    font-weight: 400 500 600 700 900;
+    font-display: swap;
+    font-style: normal;
+    font-named-instance: 'Regular';
+    src: url(/fonts/nasalization.woff) format("woff");
+  }
+
   html {
     --container-width: 720px;
 
@@ -25,21 +34,29 @@ export const GlobalStyle = createGlobalStyle`
     // --title-color:      #E3EDF7ff;   /* light, high-contrast blue-white */
 
     // Dark mode (pink theme)
-    // --border-color:     #6B2D3Fff;   /* deep muted pink/burgundy */
-    // --background-color: #150D10ff;   /* dark, slightly rosy-black */
-    // --surface-color:    #22161Cff;   /* lifted dark surface with a warm tint */
-    // --link-color:       #E91E63ff;   /* Google Material Pink accent */
-    // --text-color:       #E5C6CFff;   /* soft rosy-gray text */
-    // --title-color:      #F6DEE7ff;   /* bright pink-white for headers */
+    --border-color:     #6b4b2dff;   /* deep muted pink/burgundy */
+    --background-color: #15100dff;   /* dark, slightly rosy-black */
+    --surface-color:    #221a16ff;   /* lifted dark surface with a warm tint */
+    --link-color:       #e98a1eff;   /* Google Material Pink accent */
+    --text-color:       #c9bdb2ff;   /* soft rosy-gray text */
+    --title-color:      #fff0e2ff;   /* bright pink-white for headers */
+
+    // Dark mode (black theme)
+    --border-color:     #4f4f4f;   /* mid-dark grey (same luminance as original) */
+    --background-color: #0f0f0f;   /* deep near-black */
+    --surface-color:    #1a1a1a;   /* slightly lifted surface */
+    --link-color:       #b5b5b5;   /* light grey accent (no saturation) */
+    --text-color:       #a7a7a7;   /* soft neutral grey */
+    --title-color:      #f2f2f2;   /* bright neutral white-grey */
+
 
     // Dark mode (pink #ff8da1 theme)
-    --border-color:     #7A4E58ff;   /* muted deep rose, desaturated & darker */
-    --background-color: #130E10ff;   /* dark rosy-black */
-    --surface-color:    #20171Aff;   /* elevated, still low saturation */
-    --link-color:       #FF8DA1ff;   /* your accent color */
-    --text-color:       #E3CCD1ff;   /* soft pinkish light gray */
-    --title-color:      #F7E3E7ff;   /* bright pink-white for headers */
-
+    // --border-color:     #7A4E58ff;   /* muted deep rose, desaturated & darker */
+    // --background-color: #130E10ff;   /* dark rosy-black */
+    // --surface-color:    #20171Aff;   /* elevated, still low saturation */
+    // --link-color:       #FF8DA1ff;   /* your accent color */
+    // --text-color:       #92797fff;   /* soft pinkish light gray */
+    // --title-color:      #fff2f5ff;   /* bright pink-white for headers */
 
 
     // Light mode - Nature
@@ -69,7 +86,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html,
   body {
-    font-family: 'Roboto Mono', serif;
+    font-family: 'JetBrains Mono', serif;
 
     padding: 0;
     margin: 0;

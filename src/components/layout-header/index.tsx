@@ -21,8 +21,11 @@ export function LayoutHeader({
             alt={owner.login!}
           />
         </S.OwnerPfp>
-        <Link to={`https://github.com/${owner.login}`}>@{owner.login}</Link>
-        {owner.bio}
+        <div style={{ marginLeft: "0.5rem", display: "flex", flexDirection: "column", alignItems: "start" }}>
+          <Link to={`https://github.com/${owner.login}`}>{owner.name}</Link>
+          <Link style={{opacity: 0.5}} to={`https://github.com/${owner.login}`}>@{owner.login}</Link>
+          {owner.bio}
+        </div>
       </S.OwnerHeader>
     </S.Header>
   );

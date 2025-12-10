@@ -3,11 +3,10 @@ import { graphql, HeadFC, navigate, PageProps, Link } from "gatsby";
 import { GatsbyImage, getImage, ImageDataLike } from "gatsby-plugin-image";
 import { GitHubUser, Layout } from "../components/layout";
 import * as S from "./blog-post.style";
-import { LayoutHeader } from "../components/layout-header";
-import { NavLink } from "../components/layout-nav/style";
 import Seo from "../components/seo";
-import { BlogPostItem, IBlogPostItem } from "../components/blog-post-item";
+import { BlogPostItem } from "../components/blog-post-item";
 import { InLink } from "../components/inlink";
+import EmblaCarousel from "../components/carousel";
 
 export type IBlogPostPageContext = {
   listingBasePath: string;
@@ -37,19 +36,29 @@ export default function BlogPostPage(
 
   const post = gitHubDiscussion!;
 
-  const thumbImage = getThumbImageSharpFromPost(post)
+  const embeddedImages = post!.childMarkdownRemark!.childrenMarkdownRemarkEmbeddedImage;
 
   return (
     <Layout owner={owner as GitHubUser}>
       <S.MarkdownStyle />
-      {thumbImage && (
-        <S.ContentHero>
-          <GatsbyImage
-            image={getImage(thumbImage)!}
-            alt={post!.title!}
-          />
-        </S.ContentHero>
-      )}
+      <div>
+        <EmblaCarousel>
+          {embeddedImages!.map((e) => {
+            const childFile = e?.children[0] as Queries.File | undefined;
+            const image = childFile?.childImageSharp as unknown as ImageDataLike | undefined;
+            if (!image) {
+              return null;
+            }
+            return (
+              <GatsbyImage
+                key={childFile!.id}
+                image={getImage(image)!}
+                alt={post!.title!}
+              />
+            );
+          }).filter(Boolean)}
+        </EmblaCarousel>
+      </div>
       <S.ContentMeta>
         <S.ContentTitle>{post.title}</S.ContentTitle>
         {post?.humanReadableCreatedAt} by @
@@ -67,7 +76,7 @@ export default function BlogPostPage(
       <S.ContentDivider>
         {relatedPosts.nodes.length > 0 && <h1>Other posts</h1>}
       </S.ContentDivider>
-      <S.ContentMeta noPadding>
+      <S.ContentMeta $noPadding>
         {relatedPosts.nodes.map((relatedPost) => {
           return (
             <BlogPostItem
@@ -152,6 +161,20 @@ export const query = graphql`
         html
         id
         ...PostDetailsThumbInfo
+        childrenMarkdownRemarkEmbeddedImage {
+          children {
+            ... on File {
+              childImageSharp {
+                gatsbyImageData(
+                  layout: CONSTRAINED
+                  width: 1920
+                  placeholder: BLURRED
+                  formats: [AUTO, WEBP, AVIF]
+                )
+              }
+            }
+          }
+        }
       }
       author {
         login
