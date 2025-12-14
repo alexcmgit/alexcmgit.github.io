@@ -15,7 +15,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    --container-width: 720px;
+    --container-width: 550px;
 
     // Dark mode (purple theme)
     // --border-color:     #3E2A6Bff;   /* darkened deep-purple 700-ish */
@@ -34,27 +34,27 @@ export const GlobalStyle = createGlobalStyle`
     // --title-color:      #E3EDF7ff;   /* light, high-contrast blue-white */
 
     // Dark mode (pink theme)
-    --border-color:     #6b4b2dff;   /* deep muted pink/burgundy */
-    --background-color: #15100dff;   /* dark, slightly rosy-black */
-    --surface-color:    #221a16ff;   /* lifted dark surface with a warm tint */
-    --link-color:       #e98a1eff;   /* Google Material Pink accent */
-    --text-color:       #c9bdb2ff;   /* soft rosy-gray text */
-    --title-color:      #fff0e2ff;   /* bright pink-white for headers */
+    // --border-color:     #6b4b2dff;   /* deep muted pink/burgundy */
+    // --background-color: #15100dff;   /* dark, slightly rosy-black */
+    // --surface-color:    #221a16ff;   /* lifted dark surface with a warm tint */
+    // --link-color:       #e98a1eff;   /* Google Material Pink accent */
+    // --text-color:       #bc6617ff;   /* soft rosy-gray text */
+    // --title-color:      #fff0e2ff;   /* bright pink-white for headers */
 
     // Dark mode (black theme)
     --border-color:     #4f4f4f;   /* mid-dark grey (same luminance as original) */
-    --background-color: #0f0f0f;   /* deep near-black */
+    --background-color: #030303;   /* deep near-black */
     --surface-color:    #1a1a1a;   /* slightly lifted surface */
-    --link-color:       #b5b5b5;   /* light grey accent (no saturation) */
-    --text-color:       #a7a7a7;   /* soft neutral grey */
+    --link-color:       #81beffff;   /* light grey accent (no saturation) */
+    --text-color:       #ADADAD;   /* soft neutral grey */
     --title-color:      #f2f2f2;   /* bright neutral white-grey */
-
+  
 
     // Dark mode (pink #ff8da1 theme)
     // --border-color:     #7A4E58ff;   /* muted deep rose, desaturated & darker */
     // --background-color: #130E10ff;   /* dark rosy-black */
     // --surface-color:    #20171Aff;   /* elevated, still low saturation */
-    // --link-color:       #FF8DA1ff;   /* your accent color */
+    // --link-color:       #8dccffff;   /* your accent color */
     // --text-color:       #92797fff;   /* soft pinkish light gray */
     // --title-color:      #fff2f5ff;   /* bright pink-white for headers */
 

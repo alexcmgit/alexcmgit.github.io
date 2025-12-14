@@ -1377,6 +1377,14 @@
   dependencies:
     "@lezer/common" "^1.0.0"
 
+"@libsrcdev/gatsby-remark-autolink-domains@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@libsrcdev/gatsby-remark-autolink-domains/-/gatsby-remark-autolink-domains-0.1.0.tgz#e8a8ee6882ffce11fc6764478770e377edb9d692"
+  integrity sha512-KIpD4eBjpCRp/SotHkf73l2Ho7X3zCVpgV3+ZfcGlO+5CXgzgl72u0cM4HVgHPhX7qAz6Q8nJ+riWgBVZKmtwQ==
+  dependencies:
+    gatsby-source-filesystem "^5.15.0"
+    unist-util-visit "^5.0.0"
+
 "@libsrcdev/gatsby-remark-shiki@^0.3.3":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@libsrcdev/gatsby-remark-shiki/-/gatsby-remark-shiki-0.3.4.tgz#04f20b3d54fd9db16508a99a5c2a0d600b3da209"

@@ -20,6 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@libsrcdev/gatsby-remark-autolink-domains": "^0.1.0",
     "@libsrcdev/gatsby-remark-shiki": "^0.3.3",
     "@libsrcdev/gatsby-remark-structured-content": "0.1.7",
     "@libsrcdev/gatsby-source-github-graphql": "^0.2.0",

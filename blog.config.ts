@@ -88,6 +88,9 @@ const config = composed({
   navLinks: [
     `~> cd ~ ${config.siteBasePathWithLeadingSlash}`,
     `~> cd ${config.posts.basePathWithLeadingSlash} ${config.posts.basePathWithLeadingSlash}`,
+    `~> cd /tools /tools`,
+    `~> cd /oss /oss`,
+    `~> cd /xp /work-experience`,
     `~> open /src ${config.siteMetadata.repository.url}`,
     `~> open in@${config.siteMetadata.social.linkedinUsername} ${config.siteMetadata.social.linkedinProfileUrl}`,
     `~> open gh@${config.siteMetadata.social.githubUsername} ${config.siteMetadata.social.githubProfileUrl}`,

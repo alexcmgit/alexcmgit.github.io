@@ -34,3 +34,5 @@ yarn dev
 - [ ] Need to create a proper landing page (maybe?).
 - [ ] Need to create a proper redirect system for old links and also finish a SaaS for link management (ref. wya. Maybe turning it into a Cloudflare SPA w/ ease UI for link management).
 - [ ] Check SEO status of this blog and social media embed integration.
+- [x] Create a [plugin to autolink bare domains](https://github.com/libsrcdev/gatsby-remark-autolink-domains) (e.g., `google.com` -> `[google.com](https://google.com)`).
+- [ ] Create a plugin to autolink handles for multiple platforms gh@username, tw@username, in@username, ig@username, etc. And also handle default/fallback @username to a default platform.

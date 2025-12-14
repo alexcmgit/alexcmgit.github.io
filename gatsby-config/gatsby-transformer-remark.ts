@@ -19,6 +19,18 @@ export function getGatsbyTransformerRemarkPlugin() {
       gfm: true,
       plugins: [
         {
+          resolve: `@libsrcdev/gatsby-remark-autolink-domains`,
+          options: {
+            mapUrl: (domain: string, rest: string) => {
+              if (domain === 'gh.com') {
+                return {
+                  domain: 'github.com',
+                }
+              }
+            },
+          },
+        },
+        {
           resolve: `@libsrcdev/gatsby-remark-structured-content`,
           options: {
             transformers: [
