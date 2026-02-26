@@ -14,7 +14,8 @@
     "dev": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build --prefix-paths",
-    "plugin-dev": "gatsby clean && gatsby develop",
+    "pdev": "ts-node scripts/local-plugin-sync.ts gatsby clean && gatsby develop",
+    "plugin-dev": "ts-node scripts/local-plugin-sync.ts gatsby clean && gatsby develop",
     "serve": "gatsby serve --prefix-paths",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit"
