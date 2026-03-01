@@ -5,4 +5,5 @@ src/gatsby-types.d.ts
 *.env
 !.env.example
 yarn-error.log
-.plugin-sync-reinstall.sh
+.yalc/
+yalc.lock

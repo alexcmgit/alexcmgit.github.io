@@ -4,12 +4,15 @@ Obsidian is a configurable and serverless blog, fully hosted on GitHub pages and
 
 The general design is original and tries to follow minimalism pattern. The markup content style is from [GitHub markdown CSS](https://github.com/sindresorhus/github-markdown-css).
 
-See [how to clone and use with your posts and your data](https://alexcastro.dev/obsidian/how-to-use-obsidian's-blog-template-(built-with-gatsby-and-github-actions-but-no-coding-skills-are-required)/).
+See [how to clone and use with your posts and your data](https://alexcastro.dev/posts/how-to-use-obsidians-blog-template-built-with-gatsby-and-github-actions-but-no-coding-skills-are-required/).
 
 ## Quick start
 
-- Fill `.env`.
-- Run:
+> [!NOTE]
+> Requires: nodejs, ts-node, yarn. (for tools with version constraints see `.tools-version`).
+
+1. Fill `.env`.
+2. Run:
 
 ```bash
 yarn install
@@ -36,3 +39,10 @@ yarn dev
 - [ ] Check SEO status of this blog and social media embed integration.
 - [x] Create a [plugin to autolink bare domains](https://github.com/libsrcdev/gatsby-remark-autolink-domains) (e.g., `google.com` -> `[google.com](https://google.com)`).
 - [ ] Create a plugin to autolink handles for multiple platforms gh@username, tw@username, in@username, ig@username, etc. And also handle default/fallback @username to a default platform.
+- [ ] Add option to [@libsrcdev/gatsby-remark-shiki](https://github.com/libsrcdev/gatsby-remark-shiki) plugin to add a 'Copy' button at the top-right code block.
+- [ ] Allow remote relative image URLs, by using the static folder (maybe fork gatsby-remark-images-anywhere plugin?).
+- [ ] Allow setting custom HTTP headers for fetching markdown images (since GitHub now requires it), will need to modify gatsby-remark-images-anywhere.
+  - [ ] Also allow setting custom headers in the structured-content plugin in order to make it properly work.
+- [ ] Maybe use this roadmap/README and show it somewhere else in the blog?
+- [ ] Use a tracker/roadmap like this for other projects as well.
+- [ ] Implement markdown alert syntax.

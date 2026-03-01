@@ -1,11 +1,13 @@
-
 import {
   transformerNotationDiff,
   // ...
-} from '@shikijs/transformers'
+} from "@shikijs/transformers";
 import hljs from "highlight.js";
 
-import { createImageExtractorTransformer, createThumbnailImageTransformer } from "@libsrcdev/gatsby-remark-structured-content";
+import {
+  createImageExtractorTransformer,
+  createThumbnailImageTransformer,
+} from "@libsrcdev/gatsby-remark-structured-content";
 
 export function detectLanguage(snippet: string): string | undefined {
   return hljs.highlightAuto(snippet).language;
@@ -22,10 +24,10 @@ export function getGatsbyTransformerRemarkPlugin() {
           resolve: `@libsrcdev/gatsby-remark-autolink-domains`,
           options: {
             mapUrl: (domain: string, rest: string) => {
-              if (domain === 'gh.com') {
+              if (domain === "gh.com") {
                 return {
-                  domain: 'github.com',
-                }
+                  domain: "github.com",
+                };
               }
             },
           },
@@ -45,20 +47,19 @@ export function getGatsbyTransformerRemarkPlugin() {
             highlighterOptions: null,
             codeToHtmlOptions: {
               themes: {
-                light: 'min-light',
-                dark: 'everforest-dark',
+                light: "min-light",
+                dark: "everforest-dark",
               },
-              transformers: [
-                transformerNotationDiff(),
-              ],
+              transformers: [transformerNotationDiff()],
             },
             inferLang: async (snippet: string) => {
-              return detectLanguage(snippet)
-            }
+              return detectLanguage(snippet);
+            },
           },
         },
         {
-          resolve: `gatsby-remark-images-anywhere`,
+          // resolve: `gatsby-remark-images-anywhere`,
+          resolve: `@libsrcdev/gatsby-remark-images-anywhere`,
           options: {
             staticDir: `/static`,
             backgroundColor: "var(--background-color)",
@@ -72,5 +73,5 @@ export function getGatsbyTransformerRemarkPlugin() {
       // It's not advised to set this to "true" and this option will likely be removed in the future
       jsFrontmatterEngine: false,
     },
-  }
+  };
 }
