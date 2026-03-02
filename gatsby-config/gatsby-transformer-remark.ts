@@ -9,6 +9,13 @@ import {
   createThumbnailImageTransformer,
 } from "@libsrcdev/gatsby-remark-structured-content";
 
+import {
+  CreateMarkupArgs as GriaCreateMarkupArgs,
+  MarkupOptions as GriaMarkupOptions,
+  defaultMarkup,
+  forTrustedDomains,
+} from "@libsrcdev/gatsby-remark-images-anywhere";
+
 export function detectLanguage(snippet: string): string | undefined {
   return hljs.highlightAuto(snippet).language;
 }
@@ -20,6 +27,9 @@ export function getGatsbyTransformerRemarkPlugin() {
       footnotes: true,
       gfm: true,
       plugins: [
+        {
+          resolve: `@libsrcdev/gatsby-remark-github-markdown-alerts`,
+        },
         {
           resolve: `@libsrcdev/gatsby-remark-autolink-domains`,
           options: {
@@ -65,7 +75,17 @@ export function getGatsbyTransformerRemarkPlugin() {
             backgroundColor: "var(--background-color)",
             linkImagesToOriginal: true,
             sharpMethod: "fluid",
+            createMarkup: (
+              args: GriaCreateMarkupArgs,
+              options: GriaMarkupOptions,
+            ) =>
+              `<div style="padding-bottom: 2rem;">${defaultMarkup(args, options)}</div>`,
             maxWidth: 880,
+            // httpHeaderProviders: [
+            //   forTrustedDomains(["github.com"], (_: string) => ({
+            //     Authorization: `Bearer ${process.env.PERSONAL_GITHUB_TOKEN}`,
+            //   })),
+            // ],
           },
         },
       ],

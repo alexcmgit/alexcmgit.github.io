@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "@libsrcdev/gatsby-remark-autolink-domains": "^0.1.0",
-    "@libsrcdev/gatsby-remark-images-anywhere": "^0.1.10",
+    "@libsrcdev/gatsby-remark-github-markdown-alerts": "file:.yalc/@libsrcdev/gatsby-remark-github-markdown-alerts",
+    "@libsrcdev/gatsby-remark-images-anywhere": "file:.yalc/@libsrcdev/gatsby-remark-images-anywhere",
     "@libsrcdev/gatsby-remark-shiki": "^0.3.3",
     "@libsrcdev/gatsby-remark-structured-content": "0.1.7",
     "@libsrcdev/gatsby-source-github-graphql": "^0.2.0",
