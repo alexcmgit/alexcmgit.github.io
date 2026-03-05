@@ -1,6 +1,7 @@
 name: Trigger GitLab Deploy
 
 on:
+  workflow_dispatch:
   discussion:
     types: [created, edited, deleted, transferred, category_changed, labeled, unlabeled]
 
