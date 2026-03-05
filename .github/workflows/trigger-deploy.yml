@@ -1,0 +1,16 @@
+name: Trigger GitLab Deploy
+
+on:
+  discussion:
+    types: [created, edited, deleted, transferred, category_changed, labeled, unlabeled]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger GitLab CI pipeline
+        run: |
+          curl --fail --silent --show-error -X POST \
+            "${{ secrets.GITLAB_TRIGGER_URL }}" \
+            --form "token=${{ secrets.GITLAB_TRIGGER_TOKEN }}" \
+            --form "ref=main"
